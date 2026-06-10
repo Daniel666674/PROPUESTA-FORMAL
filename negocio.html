@@ -320,6 +320,113 @@
   .pval.red { color: var(--red-light); }
   .pval.green { color: #6db87a; font-weight: 500; }
 
+  /* ── CALCULATOR ──────────────────────────────────────────────────── */
+  .calc-toolbar {
+    display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+  }
+  .calc-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.55rem 1.2rem; background: transparent; cursor: pointer;
+    border: 1px solid var(--rule-mid); color: var(--text-mid);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .calc-btn:hover { border-color: var(--orange); color: var(--orange); }
+  .calc-btn.primary { border-color: var(--red); color: var(--red-light); }
+  .calc-btn.primary:hover { background: var(--red-faint); }
+
+  #clientGrid {
+    display: flex; flex-direction: column;
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .client-card { background: var(--bg-raised); }
+  .client-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.7rem 1.25rem;
+    background: var(--bg-subtle); border-bottom: 1px solid var(--rule);
+  }
+  .client-name-input {
+    background: transparent; border: none; outline: none;
+    font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 500;
+    color: var(--text); letter-spacing: 0.04em; width: 200px; max-width: 60%;
+  }
+  .client-name-input:focus { border-bottom: 1px solid var(--orange); }
+  .client-remove {
+    background: none; border: none; cursor: pointer;
+    font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-soft); transition: color 0.2s; padding: 0.2rem;
+  }
+  .client-remove:hover { color: var(--red-light); }
+
+  .svc-row {
+    display: grid; grid-template-columns: 38px 1fr auto;
+    padding: 0.8rem 1.25rem; gap: 0.75rem; align-items: start;
+    border-bottom: 1px solid var(--rule);
+  }
+  .svc-row.no-border { border-bottom: none; }
+  .svc-info { display: flex; flex-direction: column; gap: 0.15rem; }
+  .svc-name { font-size: 0.84rem; color: var(--text-soft); line-height: 1.3; transition: color 0.2s; }
+  .svc-name.active { color: var(--text); }
+  .svc-detail { font-size: 0.72rem; color: var(--text-soft); line-height: 1.5; }
+  .svc-price { font-size: 0.8rem; color: var(--text-soft); white-space: nowrap; transition: color 0.2s; padding-top: 2px; }
+  .svc-price.active { color: var(--orange); font-weight: 500; }
+
+  .toggle-sw { position: relative; display: inline-block; width: 30px; height: 17px; flex-shrink: 0; margin-top: 2px; }
+  .toggle-sw input { opacity: 0; width: 0; height: 0; }
+  .sw-track {
+    position: absolute; inset: 0; cursor: pointer;
+    background: var(--bg); border: 1px solid var(--rule-mid);
+    border-radius: 17px; transition: 0.25s;
+  }
+  .sw-track::before {
+    content: ''; position: absolute;
+    width: 11px; height: 11px; border-radius: 50%;
+    left: 2px; bottom: 2px; background: var(--text-soft); transition: 0.25s;
+  }
+  .toggle-sw input:checked + .sw-track { background: var(--red-faint); border-color: var(--red); }
+  .toggle-sw input:checked + .sw-track::before { transform: translateX(13px); background: var(--red-light); }
+
+  .svc-slider-wrap {
+    display: flex; align-items: center; gap: 0.6rem; margin-top: 0.5rem;
+  }
+  .svc-slider-lbl { font-size: 0.65rem; color: var(--text-soft); white-space: nowrap; }
+  .price-slider {
+    flex: 1; height: 2px; -webkit-appearance: none; appearance: none;
+    background: var(--rule-mid); outline: none; cursor: pointer; border-radius: 2px;
+  }
+  .price-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 13px; height: 13px; border-radius: 50%;
+    background: var(--red-light); cursor: pointer; border: none;
+    box-shadow: 0 0 0 3px rgba(194,59,46,0.15);
+  }
+  .price-slider::-moz-range-thumb {
+    width: 13px; height: 13px; border-radius: 50%;
+    background: var(--red-light); cursor: pointer; border: none;
+  }
+
+  .calc-totals { margin-top: 1px; border: 1px solid var(--rule); }
+  .totals-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--rule);
+  }
+  @media (max-width: 580px) { .totals-grid { grid-template-columns: repeat(2, 1fr); } }
+  .total-card { background: var(--bg-card); padding: 1.4rem 1.25rem; }
+  .total-card.t-gross  { background: var(--red-faint); }
+  .total-card.t-net    { background: #0c1a10; }
+  .total-card.t-split  { background: var(--bg-subtle); }
+  .total-lbl { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 0.75rem; }
+  .total-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.45rem; line-height: 1; margin-bottom: 0.4rem; color: var(--text);
+  }
+  .total-num.c-red    { color: var(--red-light); }
+  .total-num.c-green  { color: #6db87a; }
+  .total-num.c-orange { color: var(--orange); }
+  .total-note { font-size: 0.67rem; color: var(--text-soft); line-height: 1.45; }
+
   /* PROJECTION TABLE */
   .proj-table {
     margin-top: 2rem;
@@ -656,6 +763,55 @@
   <p class="body-text">Ambas partes tienen acceso completo y transparente a los registros financieros en todo momento.</p>
 </div>
 
+<!-- CALCULADORA INTERACTIVA -->
+<div class="section">
+  <p class="eyebrow">Artículo V — Simulador financiero interactivo</p>
+  <h2 class="sec-title">Configura tus clientes,<br>ve el <em>resultado.</em></h2>
+  <p class="body-text">Cada cliente es diferente. Activa o desactiva los servicios de cada uno y ajusta el precio donde aplique. El simulador calcula en tiempo real los ingresos brutos, costos operativos, utilidades netas y lo que recibiría cada socio.</p>
+
+  <div class="calc-toolbar">
+    <button class="calc-btn primary" id="addClientBtn">+ Agregar cliente</button>
+    <button class="calc-btn" id="resetBtn">Reiniciar escenario</button>
+  </div>
+
+  <div id="clientGrid"></div>
+
+  <div class="calc-totals" style="margin-top:1px;">
+    <div class="totals-grid">
+      <div class="total-card">
+        <div class="total-lbl">Ingresos únicos</div>
+        <div class="total-num" id="totalOnetime">$0</div>
+        <div class="total-note">Web + ERP al incorporar cada cliente</div>
+      </div>
+      <div class="total-card t-gross">
+        <div class="total-lbl">Recurrente bruto / mes</div>
+        <div class="total-num" id="totalMonthly">$0</div>
+        <div class="total-note">Antes de descontar costos operativos</div>
+      </div>
+      <div class="total-card">
+        <div class="total-lbl">Costos operativos / mes</div>
+        <div class="total-num c-red" id="totalCosts">$0</div>
+        <div class="total-note">Community Managers de clientes con marketing</div>
+      </div>
+      <div class="total-card t-net">
+        <div class="total-lbl">Utilidad neta / mes</div>
+        <div class="total-num c-green" id="totalNet">$0</div>
+        <div class="total-note">Distribuible entre los dos socios</div>
+      </div>
+      <div class="total-card t-split">
+        <div class="total-lbl">Daniela · Daniel — por mes</div>
+        <div class="total-num c-orange" id="totalPerPartner">$0</div>
+        <div class="total-note">50% exacto, cada socio</div>
+      </div>
+      <div class="total-card t-split">
+        <div class="total-lbl">Por socio — proyección anual</div>
+        <div class="total-num c-orange" id="totalPerYear">$0</div>
+        <div class="total-note">Solo recurrentes, sin contar tarifas únicas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- 6. ALCANCE DE OBLIGACIONES -->
 <div class="section">
   <p class="eyebrow">Artículo VI — Alcance de obligaciones</p>
@@ -791,6 +947,180 @@
 </div>
 
 <script>
+  // ── CALCULATOR ──────────────────────────────────────────────────────
+
+  const DEFAULT_CLIENTS = [
+    { name: 'Cliente 1', web: true,  webPrice: 2500000, maint: true,  maintPrice: 400000, mkt: true,  erp: true  },
+    { name: 'Cliente 2', web: false, webPrice: 2500000, maint: true,  maintPrice: 350000, mkt: true,  erp: false },
+    { name: 'Cliente 3', web: false, webPrice: 2500000, maint: true,  maintPrice: 300000, mkt: false, erp: false },
+  ];
+
+  let clients = DEFAULT_CLIENTS.map(c => ({ ...c }));
+
+  function fmtM(n) {
+    if (n >= 1000000) return '$' + (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (n >= 1000)    return '$' + (n / 1000).toFixed(0) + 'K';
+    return '$' + n;
+  }
+
+  function fmtCOP(n) {
+    return '$' + n.toLocaleString('es-CO');
+  }
+
+  function buildCard(c, i) {
+    const webSlider = c.web ? `
+      <div class="svc-slider-wrap">
+        <span class="svc-slider-lbl">$1.5M</span>
+        <input type="range" class="price-slider" min="1500000" max="4000000" step="100000" value="${c.webPrice}"
+          oninput="sliderInput(${i},'web',this.value)">
+        <span class="svc-slider-lbl">$4M</span>
+      </div>` : '';
+
+    const maintSlider = c.maint ? `
+      <div class="svc-slider-wrap">
+        <span class="svc-slider-lbl">$300K</span>
+        <input type="range" class="price-slider" min="300000" max="500000" step="10000" value="${c.maintPrice}"
+          oninput="sliderInput(${i},'maint',this.value)">
+        <span class="svc-slider-lbl">$500K</span>
+      </div>` : '';
+
+    return `
+<div class="client-card" data-idx="${i}">
+  <div class="client-header">
+    <input class="client-name-input" value="${c.name}"
+      onchange="clients[${i}].name = this.value" placeholder="Nombre del cliente">
+    <button class="client-remove" onclick="removeClient(${i})">− eliminar</button>
+  </div>
+
+  <div class="svc-row">
+    <label class="toggle-sw">
+      <input type="checkbox" ${c.web ? 'checked' : ''} onchange="toggleSvc(${i},'web',this.checked)">
+      <span class="sw-track"></span>
+    </label>
+    <div class="svc-info">
+      <span class="svc-name ${c.web ? 'active' : ''}">Desarrollo de sitio web</span>
+      <span class="svc-detail" data-i="${i}" data-key="web-detail">Tarifa única · ${fmtM(c.webPrice)}</span>
+      ${webSlider}
+    </div>
+    <span class="svc-price ${c.web ? 'active' : ''}" data-i="${i}" data-key="web-price">${c.web ? fmtM(c.webPrice) : '—'}</span>
+  </div>
+
+  <div class="svc-row">
+    <label class="toggle-sw">
+      <input type="checkbox" ${c.maint ? 'checked' : ''} onchange="toggleSvc(${i},'maint',this.checked)">
+      <span class="sw-track"></span>
+    </label>
+    <div class="svc-info">
+      <span class="svc-name ${c.maint ? 'active' : ''}">Mantenimiento web</span>
+      <span class="svc-detail" data-i="${i}" data-key="maint-detail">Mensual · ${fmtM(c.maintPrice)}/mes</span>
+      ${maintSlider}
+    </div>
+    <span class="svc-price ${c.maint ? 'active' : ''}" data-i="${i}" data-key="maint-price">${c.maint ? fmtM(c.maintPrice) + '/mes' : '—'}</span>
+  </div>
+
+  <div class="svc-row">
+    <label class="toggle-sw">
+      <input type="checkbox" ${c.mkt ? 'checked' : ''} onchange="toggleSvc(${i},'mkt',this.checked)">
+      <span class="sw-track"></span>
+    </label>
+    <div class="svc-info">
+      <span class="svc-name ${c.mkt ? 'active' : ''}">Marketing digital</span>
+      <span class="svc-detail">$2M/mes bruto · neto $800K tras Community Manager ($1.2M)</span>
+    </div>
+    <span class="svc-price ${c.mkt ? 'active' : ''}">${c.mkt ? '$2M/mes' : '—'}</span>
+  </div>
+
+  <div class="svc-row no-border">
+    <label class="toggle-sw">
+      <input type="checkbox" ${c.erp ? 'checked' : ''} onchange="toggleSvc(${i},'erp',this.checked)">
+      <span class="sw-track"></span>
+    </label>
+    <div class="svc-info">
+      <span class="svc-name ${c.erp ? 'active' : ''}">ERP / CRM</span>
+      <span class="svc-detail">$3.5M implementación + $1M/mes recurrente</span>
+    </div>
+    <span class="svc-price ${c.erp ? 'active' : ''}">${c.erp ? '$3.5M + $1M/mes' : '—'}</span>
+  </div>
+</div>`;
+  }
+
+  function renderClients() {
+    document.getElementById('clientGrid').innerHTML = clients.map(buildCard).join('');
+    calcTotals();
+  }
+
+  function toggleSvc(i, key, val) {
+    clients[i][key] = val;
+    renderClients();
+  }
+
+  function sliderInput(i, key, val) {
+    const v = parseInt(val);
+    if (key === 'web') {
+      clients[i].webPrice = v;
+      const d = document.querySelector(`[data-i="${i}"][data-key="web-detail"]`);
+      const p = document.querySelector(`[data-i="${i}"][data-key="web-price"]`);
+      if (d) d.textContent = `Tarifa única · ${fmtM(v)}`;
+      if (p) p.textContent = fmtM(v);
+    } else {
+      clients[i].maintPrice = v;
+      const d = document.querySelector(`[data-i="${i}"][data-key="maint-detail"]`);
+      const p = document.querySelector(`[data-i="${i}"][data-key="maint-price"]`);
+      if (d) d.textContent = `Mensual · ${fmtM(v)}/mes`;
+      if (p) p.textContent = fmtM(v) + '/mes';
+    }
+    calcTotals();
+  }
+
+  function removeClient(i) {
+    if (clients.length <= 1) return;
+    clients.splice(i, 1);
+    renderClients();
+  }
+
+  function addClient() {
+    clients.push({
+      name: 'Cliente ' + (clients.length + 1),
+      web: false, webPrice: 2500000,
+      maint: true, maintPrice: 400000,
+      mkt: false, erp: false
+    });
+    renderClients();
+    document.getElementById('clientGrid').lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function resetCalc() {
+    clients = DEFAULT_CLIENTS.map(c => ({ ...c }));
+    renderClients();
+  }
+
+  function calcTotals() {
+    let onetime = 0, gross = 0, costs = 0;
+    clients.forEach(c => {
+      if (c.web)   onetime += c.webPrice;
+      if (c.erp)   onetime += 3500000;
+      if (c.maint) gross   += c.maintPrice;
+      if (c.mkt)   { gross += 2000000; costs += 1200000; }
+      if (c.erp)   gross   += 1000000;
+    });
+    const net        = gross - costs;
+    const perPartner = net / 2;
+    const perYear    = perPartner * 12;
+
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = fmtCOP(val); };
+    set('totalOnetime',    onetime);
+    set('totalMonthly',    gross);
+    set('totalCosts',      costs);
+    set('totalNet',        net);
+    set('totalPerPartner', perPartner);
+    set('totalPerYear',    perYear);
+  }
+
+  document.getElementById('addClientBtn').addEventListener('click', addClient);
+  document.getElementById('resetBtn').addEventListener('click', resetCalc);
+  renderClients();
+
+  // ── SCROLL & REVEAL ──────────────────────────────────────────────────
   window.addEventListener('scroll', () => {
     const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
     document.getElementById('progress').style.width = pct + '%';
