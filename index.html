@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<style>
+<style id="estilos">
   :root{
     --crema: #fbf3ec;
     --crema-2: #f4e6da;
@@ -40,9 +40,6 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    background-image:
-      linear-gradient(180deg, rgba(30,20,15,0.15) 0%, rgba(30,20,15,0.65) 100%),
-      url('fotos/foto-05.jpeg');
     background-size: cover;
     background-position: center 25%;
     padding: 24px 20px 56px;
@@ -155,6 +152,10 @@
     margin-bottom: -6px;
   }
 
+  .fila-parrafo{
+    position: relative;
+  }
+
   .carta p{
     font-family: 'Playfair Display', serif;
     font-style: italic;
@@ -165,8 +166,6 @@
     text-wrap: balance;
   }
 
-  .carta p:last-of-type{ margin-bottom: 0; }
-
   .carta .firma{
     margin-top: 28px;
     font-family: 'Poppins', sans-serif;
@@ -175,6 +174,19 @@
     font-size: 0.95rem;
     color: var(--texto-suave);
   }
+
+  .btn-agregar-parrafo{
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    color: var(--terracota-oscuro);
+    background: none;
+    border: 1.5px dashed var(--terracota);
+    border-radius: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  .btn-agregar-parrafo:hover{ background: var(--crema-2); }
 
   /* ---------- GALERIA ---------- */
   .titulo-galeria{
@@ -236,13 +248,113 @@
     transform: translateY(0);
   }
 
-  /* En pantallas táctiles (sin hover real) mostramos el pie siempre */
   @media (hover: none){
     .foto-card .pie{
       opacity: 1;
       transform: none;
       background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(20,12,10,0.75) 100%);
     }
+  }
+
+  .btn-mini{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(20,12,10,0.55);
+    color: var(--blanco);
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  .btn-mini:hover{ background: rgba(20,12,10,0.8); }
+
+  .btn-borrar-parrafo{
+    position: static;
+    width: 26px;
+    height: 26px;
+    margin-left: 8px;
+    background: var(--crema-2);
+    color: var(--texto-suave);
+    font-size: 0.8rem;
+  }
+
+  .fila-parrafo{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  /* ---------- MODO EDICIÓN ---------- */
+  [contenteditable="true"]{
+    outline: 1.5px dashed var(--terracota);
+    outline-offset: 4px;
+    border-radius: 6px;
+    cursor: text;
+  }
+  [contenteditable="true"]:hover{
+    background: rgba(200,136,107,0.08);
+  }
+  [contenteditable="true"]:focus{
+    outline-color: var(--terracota-oscuro);
+    background: rgba(200,136,107,0.12);
+  }
+
+  .boton-flotante{
+    position: fixed;
+    right: max(20px, env(safe-area-inset-right, 20px));
+    bottom: max(20px, env(safe-area-inset-bottom, 20px));
+    background: var(--terracota-oscuro);
+    color: var(--blanco);
+    border: none;
+    border-radius: 999px;
+    padding: 14px 22px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    box-shadow: 0 10px 26px rgba(58,46,42,0.28);
+    cursor: pointer;
+    z-index: 50;
+  }
+  .boton-flotante:hover{ background: #8f5540; }
+
+  .boton-cancelar{
+    right: auto;
+    left: max(20px, env(safe-area-inset-left, 20px));
+    background: var(--papel);
+    color: var(--texto-suave);
+    border: 1px solid var(--crema-2);
+    box-shadow: 0 8px 20px rgba(58,46,42,0.12);
+  }
+  .boton-cancelar:hover{ background: var(--crema-2); }
+
+  .toast{
+    position: fixed;
+    left: 50%;
+    bottom: max(88px, calc(env(safe-area-inset-bottom, 0px) + 88px));
+    transform: translate(-50%, 12px);
+    background: var(--texto);
+    color: var(--blanco);
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 60;
+    max-width: 90vw;
+    text-align: center;
+  }
+  .toast.mostrar{
+    opacity: 1;
+    transform: translate(-50%, 0);
   }
 
   /* ---------- LIGHTBOX ---------- */
@@ -321,6 +433,7 @@
     .lb-boton{ width: 40px; height: 40px; font-size: 1.2rem; }
     .lb-prev{ left: 6px; }
     .lb-next{ right: 6px; }
+    .boton-flotante{ padding: 12px 18px; font-size: 0.85rem; }
   }
 
   /* ---------- FOOTER ---------- */
@@ -335,195 +448,321 @@
 </head>
 <body>
 
-<section class="hero">
-  <div class="hero-contenido">
-    <p class="eyebrow" id="txtHeroEyebrow"></p>
-    <h1 id="txtHeroTitulo"></h1>
-    <p id="txtHeroSubtitulo"></p>
-  </div>
-  <div class="scroll-cue">↓</div>
-</section>
+<div id="app"></div>
 
-<section class="intro">
-  <div class="corazon">♥</div>
-  <h2 id="txtIntroTitulo"></h2>
-  <p id="txtIntroTexto"></p>
-</section>
+<script id="datos-estado" type="application/json">{"hero":{"etiqueta":"Un álbum para nosotros","titulo":"Nuestra Historia","subtitulo":"Los momentos que más queremos recordar, en un solo lugar.","imagenFondo":"fotos/foto-05.jpeg"},"intro":{"titulo":"Cada foto, un recuerdo","texto":"Partidos de fútbol, siestas de domingo, playa, flores y una compañera de cuatro patas que no falta en ninguna aventura. Este es nuestro álbum."},"cartaPersonal":{"etiqueta":"Unas palabras","parrafos":["Escribe aquí lo que quieras decirle a esa persona especial.","Toca el botón de abajo para editar este texto, agregar otro párrafo o firmar con tu nombre."],"firma":"— Escribe tu nombre aquí"},"tituloGaleria":"El álbum","footer":"Hecho con ♥ — nuestro álbum","fotos":[{"src":"fotos/foto-05.jpeg","pie":"Nuestra sonrisa favorita"},{"src":"fotos/foto-06.jpeg","pie":"Noche de fútbol, juntos como siempre"},{"src":"fotos/foto-04.jpeg","pie":"Un beso que lo dice todo"},{"src":"fotos/foto-03.jpeg","pie":"Risas que no caben en una sola foto"},{"src":"fotos/foto-10.jpeg","pie":"Abrazados, sin nada más que decir"},{"src":"fotos/foto-02.jpeg","pie":"Los dos, tal cual somos"},{"src":"fotos/foto-01.jpeg","pie":"Ella y su compañera de siempre"},{"src":"fotos/foto-11.jpeg","pie":"Aventuras sobre el agua"},{"src":"fotos/foto-07.jpeg","pie":"Choca esos cinco"},{"src":"fotos/foto-08.jpeg","pie":"Rodeada de flores, feliz como siempre"},{"src":"fotos/foto-09.jpeg","pie":"Arena, mar y mucha energía"},{"src":"fotos/foto-12.jpeg","pie":"El amor también tiene cuatro patas"}]}</script>
+<script id="logica">
+(function () {
 
-<div class="carta-envoltorio">
-  <div class="carta">
-    <p class="eyebrow" id="txtCartaEtiqueta"></p>
-    <div class="comilla">&ldquo;</div>
-    <div id="txtCartaParrafos"></div>
-    <p class="firma" id="txtCartaFirma"></p>
-  </div>
-</div>
+  function escaparHTML(valor) {
+    return String(valor == null ? '' : valor)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
 
-<h2 class="titulo-galeria" id="txtGaleriaTitulo"></h2>
-<section class="galeria" id="galeria"></section>
+  function escaparAtributo(valor) {
+    return escaparHTML(valor).replace(/"/g, '&quot;');
+  }
 
-<div class="lightbox" id="lightbox">
-  <button class="lb-cerrar" id="lbCerrar" aria-label="Cerrar">&times;</button>
-  <button class="lb-boton lb-prev" id="lbPrev" aria-label="Anterior">&#8249;</button>
-  <div class="lightbox-contenido">
-    <img id="lbImagen" src="" alt="">
-    <p class="pie-grande" id="lbPie"></p>
-  </div>
-  <button class="lb-boton lb-next" id="lbNext" aria-label="Siguiente">&#8250;</button>
-</div>
+  var estado = JSON.parse(document.getElementById('datos-estado').textContent);
+  var modoEdicion = false;
+  var indiceActual = 0;
 
-<footer id="txtFooter"></footer>
-
-<script>
-  /* ======================================================================
-     EDITA AQUÍ TODOS LOS TEXTOS DEL ÁLBUM (no necesitas saber programar)
-
-     Cambia solo lo que está escrito ENTRE COMILLAS. No borres las comillas
-     ni las comas. Guarda el archivo cuando termines y listo.
-     ====================================================================== */
-
-  const contenido = {
-
-    // Portada (la foto grande de arriba de todo)
-    hero: {
-      etiqueta: 'Un álbum para nosotros',       // texto pequeño arriba del título
-      titulo: 'Nuestra Historia',                 // título grande
-      subtitulo: 'Los momentos que más queremos recordar, en un solo lugar.',
-    },
-
-    // Texto corto debajo de la portada
-    intro: {
-      titulo: 'Cada foto, un recuerdo',
-      texto: 'Partidos de fútbol, siestas de domingo, playa, flores y una compañera de cuatro patas que no falta en ninguna aventura. Este es nuestro álbum.',
-    },
-
-    // Tus palabras personales (la "carta"). Puedes escribir uno o varios
-    // párrafos: cada línea entre comillas dentro de [ ] es un párrafo nuevo.
-    // Para agregar un párrafo, copia una línea y pégala antes del ] .
-    cartaPersonal: {
-      etiqueta: 'Unas palabras',
-      parrafos: [
-        'Escribe aquí lo que quieras decirle a esa persona especial.',
-        'Puedes agregar un segundo párrafo copiando esta línea y cambiando el texto.',
-      ],
-      firma: '— Escribe tu nombre aquí',
-    },
-
-    // Título justo antes de la galería de fotos
-    tituloGaleria: 'El álbum',
-
-    // Línea del final de la página
-    footer: 'Hecho con ♥ — nuestro álbum',
-  };
-
-  // Lista editable de fotos: el orden aquí es el orden en que se ven.
-  //  - Para cambiar el texto de una foto, edita lo que está después de "pie:".
-  //  - Para agregar una foto nueva: sube el archivo a la carpeta /fotos y
-  //    agrega una línea nueva copiando el formato de las demás.
-  //  - Para quitar una foto: borra su línea completa.
-  const fotos = [
-    { src: 'fotos/foto-05.jpeg', pie: 'Nuestra sonrisa favorita' },
-    { src: 'fotos/foto-06.jpeg', pie: 'Noche de fútbol, juntos como siempre' },
-    { src: 'fotos/foto-04.jpeg', pie: 'Un beso que lo dice todo' },
-    { src: 'fotos/foto-03.jpeg', pie: 'Risas que no caben en una sola foto' },
-    { src: 'fotos/foto-10.jpeg', pie: 'Abrazados, sin nada más que decir' },
-    { src: 'fotos/foto-02.jpeg', pie: 'Los dos, tal cual somos' },
-    { src: 'fotos/foto-01.jpeg', pie: 'Ella y su compañera de siempre' },
-    { src: 'fotos/foto-11.jpeg', pie: 'Aventuras sobre el agua' },
-    { src: 'fotos/foto-07.jpeg', pie: 'Choca esos cinco' },
-    { src: 'fotos/foto-08.jpeg', pie: 'Rodeada de flores, feliz como siempre' },
-    { src: 'fotos/foto-09.jpeg', pie: 'Arena, mar y mucha energía' },
-    { src: 'fotos/foto-12.jpeg', pie: 'El amor también tiene cuatro patas' },
-  ];
-
-  /* ======================================================================
-     A partir de aquí es el código que arma la página. No necesitas tocar
-     nada de lo de abajo para editar textos o fotos.
-     ====================================================================== */
-
-  document.getElementById('txtHeroEyebrow').textContent = contenido.hero.etiqueta;
-  document.getElementById('txtHeroTitulo').textContent = contenido.hero.titulo;
-  document.getElementById('txtHeroSubtitulo').textContent = contenido.hero.subtitulo;
-
-  document.getElementById('txtIntroTitulo').textContent = contenido.intro.titulo;
-  document.getElementById('txtIntroTexto').textContent = contenido.intro.texto;
-
-  document.getElementById('txtCartaEtiqueta').textContent = contenido.cartaPersonal.etiqueta;
-  document.getElementById('txtCartaFirma').textContent = contenido.cartaPersonal.firma;
-
-  const cartaParrafosEl = document.getElementById('txtCartaParrafos');
-  contenido.cartaPersonal.parrafos.forEach((parrafo) => {
-    const p = document.createElement('p');
-    p.textContent = parrafo;
-    cartaParrafosEl.appendChild(p);
-  });
-
-  document.getElementById('txtGaleriaTitulo').textContent = contenido.tituloGaleria;
-  document.getElementById('txtFooter').textContent = contenido.footer;
-
-  const galeria = document.getElementById('galeria');
-
-  fotos.forEach((foto, indice) => {
-    const card = document.createElement('div');
-    card.className = 'foto-card';
-    card.tabIndex = 0;
-    card.innerHTML = `
-      <img src="${foto.src}" alt="${foto.pie}" loading="lazy">
-      <div class="pie">${foto.pie}</div>
-    `;
-    card.addEventListener('click', () => abrirLightbox(indice));
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') abrirLightbox(indice);
+  function construirCarta(e, ce, editando) {
+    var html = '<div class="carta-envoltorio"><div class="carta">';
+    html += '<p class="eyebrow"' + ce + ' data-campo="carta.etiqueta">' + escaparHTML(e.cartaPersonal.etiqueta) + '</p>';
+    html += '<div class="comilla">&ldquo;</div>';
+    html += '<div class="carta-parrafos">';
+    e.cartaPersonal.parrafos.forEach(function (parrafo) {
+      html += '<div class="fila-parrafo">';
+      html += '<p' + ce + ' data-tipo="parrafo">' + escaparHTML(parrafo) + '</p>';
+      if (editando && e.cartaPersonal.parrafos.length > 1) {
+        html += '<button type="button" class="btn-mini btn-borrar-parrafo" title="Quitar este párrafo">&times;</button>';
+      }
+      html += '</div>';
     });
-    galeria.appendChild(card);
-  });
+    if (editando) {
+      html += '<button type="button" class="btn-agregar-parrafo" id="btnAgregarParrafo">+ Agregar un párrafo</button>';
+    }
+    html += '</div>';
+    html += '<p class="firma"' + ce + ' data-campo="carta.firma">' + escaparHTML(e.cartaPersonal.firma) + '</p>';
+    html += '</div></div>';
+    return html;
+  }
 
-  const lightbox = document.getElementById('lightbox');
-  const lbImagen = document.getElementById('lbImagen');
-  const lbPie = document.getElementById('lbPie');
-  let indiceActual = 0;
+  function construirGaleria(e, ce, editando) {
+    var html = '<h2 class="titulo-galeria"' + ce + ' data-campo="galeria.titulo">' + escaparHTML(e.tituloGaleria) + '</h2>';
+    html += '<section class="galeria" id="galeria">';
+    e.fotos.forEach(function (foto, indice) {
+      html += '<div class="foto-card" data-src="' + escaparAtributo(foto.src) + '" data-indice="' + indice + '" tabindex="0">';
+      html += '<img src="' + escaparAtributo(foto.src) + '" alt="' + escaparAtributo(foto.pie) + '" loading="lazy">';
+      html += '<div class="pie"' + ce + ' data-tipo="pie-foto">' + escaparHTML(foto.pie) + '</div>';
+      if (editando) {
+        html += '<button type="button" class="btn-mini btn-borrar-foto" title="Quitar esta foto">&#128465;</button>';
+      }
+      html += '</div>';
+    });
+    html += '</section>';
+    return html;
+  }
 
-  function abrirLightbox(indice){
+  function construirCuerpoHTML(e) {
+    var editando = modoEdicion;
+    var ce = editando ? ' contenteditable="true"' : '';
+    var html = '';
+
+    html += '<section class="hero" style="background-image: linear-gradient(180deg, rgba(30,20,15,0.15) 0%, rgba(30,20,15,0.65) 100%), url(\'' + escaparAtributo(e.hero.imagenFondo) + '\');">';
+    html += '<div class="hero-contenido">';
+    html += '<p class="eyebrow"' + ce + ' data-campo="hero.etiqueta">' + escaparHTML(e.hero.etiqueta) + '</p>';
+    html += '<h1' + ce + ' data-campo="hero.titulo">' + escaparHTML(e.hero.titulo) + '</h1>';
+    html += '<p' + ce + ' data-campo="hero.subtitulo">' + escaparHTML(e.hero.subtitulo) + '</p>';
+    html += '</div>';
+    html += '<div class="scroll-cue">&#8595;</div>';
+    html += '</section>';
+
+    html += '<section class="intro">';
+    html += '<div class="corazon">&#9829;</div>';
+    html += '<h2' + ce + ' data-campo="intro.titulo">' + escaparHTML(e.intro.titulo) + '</h2>';
+    html += '<p' + ce + ' data-campo="intro.texto">' + escaparHTML(e.intro.texto) + '</p>';
+    html += '</section>';
+
+    html += construirCarta(e, ce, editando);
+    html += construirGaleria(e, ce, editando);
+
+    html += '<div class="lightbox" id="lightbox">';
+    html += '<button class="lb-cerrar" id="lbCerrar" aria-label="Cerrar">&times;</button>';
+    html += '<button class="lb-boton lb-prev" id="lbPrev" aria-label="Anterior">&#8249;</button>';
+    html += '<div class="lightbox-contenido"><img id="lbImagen" src="" alt=""><p class="pie-grande" id="lbPie"></p></div>';
+    html += '<button class="lb-boton lb-next" id="lbNext" aria-label="Siguiente">&#8250;</button>';
+    html += '</div>';
+
+    html += '<footer' + ce + ' data-campo="footer">' + escaparHTML(e.footer) + '</footer>';
+
+    html += '<button type="button" class="boton-flotante" id="btnModoEdicion">' + (editando ? '&#128190; Guardar cambios' : '&#9998; Editar textos') + '</button>';
+    if (editando) {
+      html += '<button type="button" class="boton-flotante boton-cancelar" id="btnCancelarEdicion">Cancelar</button>';
+    }
+    html += '<div class="toast" id="toast"></div>';
+
+    return html;
+  }
+
+  function mostrarAviso(mensaje) {
+    var toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = mensaje;
+    toast.classList.add('mostrar');
+    window.clearTimeout(window.__avisoTimer);
+    window.__avisoTimer = window.setTimeout(function () {
+      toast.classList.remove('mostrar');
+    }, 3200);
+  }
+
+  function abrirLightbox(indice) {
     indiceActual = indice;
-    mostrarFoto();
-    lightbox.classList.add('abierto');
+    mostrarFotoLightbox();
+    document.getElementById('lightbox').classList.add('abierto');
   }
 
-  function mostrarFoto(){
-    const foto = fotos[indiceActual];
-    lbImagen.src = foto.src;
-    lbImagen.alt = foto.pie;
-    lbPie.textContent = foto.pie;
+  function mostrarFotoLightbox() {
+    var foto = estado.fotos[indiceActual];
+    if (!foto) return;
+    var img = document.getElementById('lbImagen');
+    img.src = foto.src;
+    img.alt = foto.pie;
+    document.getElementById('lbPie').textContent = foto.pie;
   }
 
-  function cerrarLightbox(){
-    lightbox.classList.remove('abierto');
+  function cerrarLightbox() {
+    document.getElementById('lightbox').classList.remove('abierto');
   }
 
-  function anterior(){
-    indiceActual = (indiceActual - 1 + fotos.length) % fotos.length;
-    mostrarFoto();
+  function fotoAnterior() {
+    indiceActual = (indiceActual - 1 + estado.fotos.length) % estado.fotos.length;
+    mostrarFotoLightbox();
   }
 
-  function siguiente(){
-    indiceActual = (indiceActual + 1) % fotos.length;
-    mostrarFoto();
+  function fotoSiguiente() {
+    indiceActual = (indiceActual + 1) % estado.fotos.length;
+    mostrarFotoLightbox();
   }
 
-  document.getElementById('lbCerrar').addEventListener('click', cerrarLightbox);
-  document.getElementById('lbPrev').addEventListener('click', anterior);
-  document.getElementById('lbNext').addEventListener('click', siguiente);
+  function recolectarEstadoDesdeDOM() {
+    function leer(campo) {
+      var el = document.querySelector('[data-campo="' + campo + '"]');
+      return el ? el.textContent.trim() : '';
+    }
+    estado.hero.etiqueta = leer('hero.etiqueta');
+    estado.hero.titulo = leer('hero.titulo');
+    estado.hero.subtitulo = leer('hero.subtitulo');
+    estado.intro.titulo = leer('intro.titulo');
+    estado.intro.texto = leer('intro.texto');
+    estado.cartaPersonal.etiqueta = leer('carta.etiqueta');
+    estado.cartaPersonal.firma = leer('carta.firma');
+    estado.tituloGaleria = leer('galeria.titulo');
+    estado.footer = leer('footer');
 
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) cerrarLightbox();
+    var parrafos = Array.prototype.map.call(
+      document.querySelectorAll('[data-tipo="parrafo"]'),
+      function (p) { return p.textContent.trim(); }
+    ).filter(function (t) { return t.length > 0; });
+    estado.cartaPersonal.parrafos = parrafos.length ? parrafos : ['Escribe aquí tus palabras.'];
+
+    estado.fotos = Array.prototype.map.call(
+      document.querySelectorAll('.foto-card'),
+      function (card) {
+        return {
+          src: card.getAttribute('data-src'),
+          pie: card.querySelector('[data-tipo="pie-foto"]').textContent.trim(),
+        };
+      }
+    );
+  }
+
+  async function guardarCambios() {
+    recolectarEstadoDesdeDOM();
+
+    if (!window.claude || typeof window.claude.use !== 'function') {
+      mostrarAviso('La edición en vivo solo se guarda dentro de Claude.');
+      modoEdicion = false;
+      pintar();
+      return;
+    }
+
+    var artifact = await window.claude.use('artifact');
+    if (!artifact) {
+      mostrarAviso('La edición en vivo no está disponible en esta ventana.');
+      modoEdicion = false;
+      pintar();
+      return;
+    }
+
+    var estilos = document.getElementById('estilos').textContent;
+    var logica = document.getElementById('logica').textContent;
+    var estadoTexto = JSON.stringify(estado).replace(/</g, '\\u003c');
+    var tituloPagina = escaparHTML(estado.hero.titulo || 'Nuestra Historia');
+
+    var doc = '<!DOCTYPE html>\n<html lang="es">\n<head>\n';
+    doc += '<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n';
+    doc += '<title>' + tituloPagina + '</title>\n';
+    doc += '<link rel="preconnect" href="https://fonts.googleapis.com">\n';
+    doc += '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n';
+    doc += '<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">\n';
+    doc += '<style id="estilos">' + estilos + '</style>\n';
+    doc += '</head>\n<body>\n<div id="app"></div>\n';
+    doc += '<' + 'script id="datos-estado" type="application/json">' + estadoTexto + '<' + '/script>\n';
+    doc += '<' + 'script id="logica">' + logica + '<' + '/script>\n';
+    doc += '</body>\n</html>';
+
+    try {
+      await artifact.publish(doc);
+      modoEdicion = false;
+      pintar();
+      mostrarAviso('Cambios guardados ✓');
+    } catch (err) {
+      if (err && (err.code === 'not_writer' || err.code === 'not_granted')) {
+        mostrarAviso('No tienes permiso para editar este álbum.');
+      } else {
+        mostrarAviso('No se pudo guardar. Intenta de nuevo.');
+      }
+      modoEdicion = true;
+      pintar();
+    }
+  }
+
+  function conectarEventos() {
+    var galeria = document.getElementById('galeria');
+    if (galeria) {
+      galeria.addEventListener('click', function (ev) {
+        var btnBorrar = ev.target.closest('.btn-borrar-foto');
+        if (btnBorrar) {
+          ev.stopPropagation();
+          if (window.confirm('¿Quitar esta foto del álbum?')) {
+            btnBorrar.closest('.foto-card').remove();
+          }
+          return;
+        }
+        if (modoEdicion && ev.target.isContentEditable) {
+          return;
+        }
+        var card = ev.target.closest('.foto-card');
+        if (card) {
+          abrirLightbox(parseInt(card.getAttribute('data-indice'), 10));
+        }
+      });
+      galeria.addEventListener('keydown', function (ev) {
+        if (ev.key !== 'Enter' && ev.key !== ' ') return;
+        var card = ev.target.closest('.foto-card');
+        if (card && !ev.target.isContentEditable) {
+          abrirLightbox(parseInt(card.getAttribute('data-indice'), 10));
+        }
+      });
+    }
+
+    var app = document.getElementById('app');
+    app.addEventListener('click', function (ev) {
+      if (ev.target.closest('.btn-borrar-parrafo')) {
+        ev.target.closest('.fila-parrafo').remove();
+        return;
+      }
+      if (ev.target.id === 'btnAgregarParrafo') {
+        var fila = document.createElement('div');
+        fila.className = 'fila-parrafo';
+        var p = document.createElement('p');
+        p.setAttribute('contenteditable', 'true');
+        p.setAttribute('data-tipo', 'parrafo');
+        p.textContent = 'Escribe aquí un nuevo párrafo';
+        var boton = document.createElement('button');
+        boton.type = 'button';
+        boton.className = 'btn-mini btn-borrar-parrafo';
+        boton.title = 'Quitar este párrafo';
+        boton.innerHTML = '&times;';
+        fila.appendChild(p);
+        fila.appendChild(boton);
+        ev.target.parentNode.insertBefore(fila, ev.target);
+        p.focus();
+        return;
+      }
+      if (ev.target.id === 'btnModoEdicion') {
+        if (modoEdicion) {
+          guardarCambios();
+        } else {
+          modoEdicion = true;
+          pintar();
+        }
+        return;
+      }
+      if (ev.target.id === 'btnCancelarEdicion') {
+        modoEdicion = false;
+        pintar();
+        return;
+      }
+    });
+
+    document.getElementById('lbCerrar').addEventListener('click', cerrarLightbox);
+    document.getElementById('lbPrev').addEventListener('click', fotoAnterior);
+    document.getElementById('lbNext').addEventListener('click', fotoSiguiente);
+    document.getElementById('lightbox').addEventListener('click', function (ev) {
+      if (ev.target.id === 'lightbox') cerrarLightbox();
+    });
+  }
+
+  function pintar() {
+    document.getElementById('app').innerHTML = construirCuerpoHTML(estado);
+    conectarEventos();
+  }
+
+  document.addEventListener('keydown', function (ev) {
+    var lightbox = document.getElementById('lightbox');
+    if (!lightbox || !lightbox.classList.contains('abierto')) return;
+    if (ev.key === 'Escape') cerrarLightbox();
+    if (ev.key === 'ArrowLeft') fotoAnterior();
+    if (ev.key === 'ArrowRight') fotoSiguiente();
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('abierto')) return;
-    if (e.key === 'Escape') cerrarLightbox();
-    if (e.key === 'ArrowLeft') anterior();
-    if (e.key === 'ArrowRight') siguiente();
-  });
+  pintar();
+})();
 </script>
 
 </body>
