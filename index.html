@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuestra Historia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --crema: #fbf3ec;
+    --crema-2: #f4e6da;
+    --terracota: #c8886b;
+    --terracota-oscuro: #a5654a;
+    --texto: #3a2e2a;
+    --texto-suave: #6f5f58;
+    --blanco: #ffffff;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    background: var(--crema);
+    color: var(--texto);
+    font-family: 'Poppins', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, .titulo{
+    font-family: 'Playfair Display', serif;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background-image:
+      linear-gradient(180deg, rgba(30,20,15,0.15) 0%, rgba(30,20,15,0.65) 100%),
+      url('fotos/foto-05.jpeg');
+    background-size: cover;
+    background-position: center 25%;
+    padding: 24px 20px 56px;
+    text-align: center;
+    color: var(--blanco);
+  }
+
+  .hero-contenido{ max-width: 640px; }
+
+  .hero .eyebrow{
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    opacity: 0.85;
+    margin: 0 0 14px;
+  }
+
+  .hero h1{
+    font-size: clamp(2.4rem, 7vw, 4rem);
+    margin: 0 0 14px;
+    font-weight: 700;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.35);
+  }
+
+  .hero p{
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    font-weight: 300;
+    opacity: 0.95;
+    margin: 0;
+  }
+
+  .scroll-cue{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.6rem;
+    opacity: 0.8;
+    animation: rebote 2.2s infinite;
+  }
+
+  @keyframes rebote{
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 10px); }
+  }
+
+  /* ---------- INTRO ---------- */
+  .intro{
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 64px 24px 24px;
+    text-align: center;
+  }
+
+  .intro .corazon{
+    font-size: 1.6rem;
+    color: var(--terracota);
+    margin-bottom: 12px;
+  }
+
+  .intro h2{
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    margin: 0 0 12px;
+  }
+
+  .intro p{
+    color: var(--texto-suave);
+    line-height: 1.7;
+    font-weight: 300;
+    font-size: 1.02rem;
+  }
+
+  /* ---------- GALERIA ---------- */
+  .galeria{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 24px 20px 90px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 18px;
+  }
+
+  .foto-card{
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--crema-2);
+    box-shadow: 0 6px 20px rgba(58, 46, 42, 0.12);
+  }
+
+  .foto-card img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .foto-card:hover img{
+    transform: scale(1.06);
+  }
+
+  .foto-card .pie{
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 28px 14px 12px;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(20,12,10,0.72) 100%);
+    color: var(--blanco);
+    font-size: 0.9rem;
+    font-weight: 400;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .foto-card:hover .pie,
+  .foto-card:focus-visible .pie{
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* En pantallas táctiles (sin hover real) mostramos el pie siempre */
+  @media (hover: none){
+    .foto-card .pie{
+      opacity: 1;
+      transform: none;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(20,12,10,0.75) 100%);
+    }
+  }
+
+  /* ---------- LIGHTBOX ---------- */
+  .lightbox{
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 12, 10, 0.94);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: env(safe-area-inset-top, 20px) 16px env(safe-area-inset-bottom, 20px);
+  }
+
+  .lightbox.abierto{
+    display: flex;
+  }
+
+  .lightbox-contenido{
+    max-width: 900px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .lightbox img{
+    max-width: 100%;
+    max-height: 74vh;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+
+  .lightbox .pie-grande{
+    color: var(--blanco);
+    margin-top: 18px;
+    font-size: 1.05rem;
+    font-weight: 300;
+    min-height: 1.4em;
+  }
+
+  .lb-boton{
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: var(--blanco);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lb-boton:hover{ background: rgba(255,255,255,0.25); }
+  .lb-prev{ left: 14px; }
+  .lb-next{ right: 14px; }
+
+  .lb-cerrar{
+    position: fixed;
+    top: max(16px, env(safe-area-inset-top, 16px));
+    right: 16px;
+    background: none;
+    border: none;
+    color: var(--blanco);
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.85;
+  }
+  .lb-cerrar:hover{ opacity: 1; }
+
+  @media (max-width: 560px){
+    .lb-boton{ width: 40px; height: 40px; font-size: 1.2rem; }
+    .lb-prev{ left: 6px; }
+    .lb-next{ right: 6px; }
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    text-align: center;
+    padding: 30px 20px 50px;
+    color: var(--texto-suave);
+    font-size: 0.85rem;
+    font-weight: 300;
+  }
+</style>
+</head>
+<body>
+
+<!--
+  ======================================================================
+  CÓMO EDITAR ESTE ÁLBUM (sin saber programar):
+
+  1. TÍTULO Y TEXTO DE PORTADA: busca la sección <div class="hero-contenido">
+     un poco más abajo y cambia el texto entre las etiquetas <h1> y <p>.
+
+  2. FOTOS Y PIES DE FOTO: al final del archivo hay una lista llamada
+     "fotos" dentro de <script>. Cada foto es una línea así:
+
+        { src: 'fotos/foto-01.jpeg', pie: 'Texto que quieras mostrar' }
+
+     - Para cambiar el texto de una foto, edita lo que está entre
+       comillas después de "pie:".
+     - Para agregar una foto nueva: sube el archivo a la carpeta /fotos
+       y agrega una línea nueva copiando el formato de arriba.
+     - Para quitar una foto: borra su línea completa.
+     - El orden en que aparecen aquí es el orden en que se ven en la
+       página.
+  ======================================================================
+-->
+
+<section class="hero">
+  <div class="hero-contenido">
+    <p class="eyebrow">Un álbum para nosotros</p>
+    <h1>Nuestra Historia</h1>
+    <p>Los momentos que más queremos recordar, en un solo lugar.</p>
+  </div>
+  <div class="scroll-cue">↓</div>
+</section>
+
+<section class="intro">
+  <div class="corazon">♥</div>
+  <h2>Cada foto, un recuerdo</h2>
+  <p>Partidos de fútbol, siestas de domingo, playa, flores y una compañera de cuatro patas que no falta en ninguna aventura. Este es nuestro álbum.</p>
+</section>
+
+<section class="galeria" id="galeria"></section>
+
+<div class="lightbox" id="lightbox">
+  <button class="lb-cerrar" id="lbCerrar" aria-label="Cerrar">&times;</button>
+  <button class="lb-boton lb-prev" id="lbPrev" aria-label="Anterior">&#8249;</button>
+  <div class="lightbox-contenido">
+    <img id="lbImagen" src="" alt="">
+    <p class="pie-grande" id="lbPie"></p>
+  </div>
+  <button class="lb-boton lb-next" id="lbNext" aria-label="Siguiente">&#8250;</button>
+</div>
+
+<footer>Hecho con ♥ &mdash; nuestro álbum</footer>
+
+<script>
+  // Lista editable de fotos. Ver instrucciones al inicio del archivo.
+  const fotos = [
+    { src: 'fotos/foto-05.jpeg', pie: 'Nuestra sonrisa favorita' },
+    { src: 'fotos/foto-06.jpeg', pie: 'Noche de fútbol, juntos como siempre' },
+    { src: 'fotos/foto-04.jpeg', pie: 'Un beso que lo dice todo' },
+    { src: 'fotos/foto-03.jpeg', pie: 'Risas que no caben en una sola foto' },
+    { src: 'fotos/foto-10.jpeg', pie: 'Abrazados, sin nada más que decir' },
+    { src: 'fotos/foto-02.jpeg', pie: 'Los dos, tal cual somos' },
+    { src: 'fotos/foto-01.jpeg', pie: 'Ella y su compañera de siempre' },
+    { src: 'fotos/foto-11.jpeg', pie: 'Aventuras sobre el agua' },
+    { src: 'fotos/foto-07.jpeg', pie: 'Choca esos cinco' },
+    { src: 'fotos/foto-08.jpeg', pie: 'Rodeada de flores, feliz como siempre' },
+    { src: 'fotos/foto-09.jpeg', pie: 'Arena, mar y mucha energía' },
+    { src: 'fotos/foto-12.jpeg', pie: 'El amor también tiene cuatro patas' },
+  ];
+
+  const galeria = document.getElementById('galeria');
+
+  fotos.forEach((foto, indice) => {
+    const card = document.createElement('div');
+    card.className = 'foto-card';
+    card.tabIndex = 0;
+    card.innerHTML = `
+      <img src="${foto.src}" alt="${foto.pie}" loading="lazy">
+      <div class="pie">${foto.pie}</div>
+    `;
+    card.addEventListener('click', () => abrirLightbox(indice));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') abrirLightbox(indice);
+    });
+    galeria.appendChild(card);
+  });
+
+  const lightbox = document.getElementById('lightbox');
+  const lbImagen = document.getElementById('lbImagen');
+  const lbPie = document.getElementById('lbPie');
+  let indiceActual = 0;
+
+  function abrirLightbox(indice){
+    indiceActual = indice;
+    mostrarFoto();
+    lightbox.classList.add('abierto');
+  }
+
+  function mostrarFoto(){
+    const foto = fotos[indiceActual];
+    lbImagen.src = foto.src;
+    lbImagen.alt = foto.pie;
+    lbPie.textContent = foto.pie;
+  }
+
+  function cerrarLightbox(){
+    lightbox.classList.remove('abierto');
+  }
+
+  function anterior(){
+    indiceActual = (indiceActual - 1 + fotos.length) % fotos.length;
+    mostrarFoto();
+  }
+
+  function siguiente(){
+    indiceActual = (indiceActual + 1) % fotos.length;
+    mostrarFoto();
+  }
+
+  document.getElementById('lbCerrar').addEventListener('click', cerrarLightbox);
+  document.getElementById('lbPrev').addEventListener('click', anterior);
+  document.getElementById('lbNext').addEventListener('click', siguiente);
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) cerrarLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('abierto')) return;
+    if (e.key === 'Escape') cerrarLightbox();
+    if (e.key === 'ArrowLeft') anterior();
+    if (e.key === 'ArrowRight') siguiente();
+  });
+</script>
+
+</body>
+</html>
